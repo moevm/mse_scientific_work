@@ -1,0 +1,4 @@
+include LICENSE
+include README.rst
+recursive-include scientificWork/static *
+recursive-include scientificWork/templates *
