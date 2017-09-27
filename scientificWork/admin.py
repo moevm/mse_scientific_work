@@ -12,5 +12,5 @@ admin.site.register(Rand)
 admin.site.register(Participation)
 admin.site.register(UserProfile)
 
-
+#p = Publication.objects.all()
 # Create your models here.

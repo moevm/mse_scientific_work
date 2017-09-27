@@ -4,18 +4,46 @@ from django.contrib.auth import logout
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
+from django.template import loader, RequestContext
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
+from scientificWork.models import Publication, UserProfile
+
+
 def index(request):
-	return render(request,'scientificWork/index.html')
+
+    return render(request,'scientificWork/index.html')
+    #return HttpResponse(o)
+
+
 
 def competitions(request):
     return render(request,'scientificWork/competitions.html')
 
 def publications(request):
-    return render(request,'scientificWork/publications.html')
+    o = Publication.objects.all()
+    # o=' :'.join([p.bookName for p in l])
+    template = loader.get_template('scientificWork/publications.html')
+    context = RequestContext(request, {
+        'o': o,
+    })
+    return HttpResponse(template.render(context))
+    #return render(request,'scientificWork/publications.html')
+
+def staff(request):
+    s = UserProfile.objects.all()
+    for x in s:
+        x.typestr=x.get_type_display()
+        x.academic_degreestr=x.get_academic_degree_display()
+    # o=' :'.join([p.bookName for p in l])
+    template = loader.get_template('scientificWork/staff.html')
+    context = RequestContext(request, {
+        's': s,
+    })
+    return HttpResponse(template.render(context))
 
 def rads(request):
     return render(request,'scientificWork/rads.html')
