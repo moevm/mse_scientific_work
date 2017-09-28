@@ -41,7 +41,8 @@ class UserProfile(models.Model):
   stepic_id = models.CharField(max_length=100, null=True)
 
   type = models.CharField(max_length=2, choices=PERSON_TYPE_CHOICES, default='s')
-
+  typestr = ' '
+  academic_degreestr=' '
   # Дата текущего избрания или зачисления на преподавательскую должность
   election_date = models.DateField(null=True)
 
@@ -125,7 +126,6 @@ class UserProfile(models.Model):
 
 # Описание моделей приложения scientificWork
 
-
 class Publication(models.Model):
     tpPubl = (
         ('guidelines', 'Методическое указание'),
@@ -166,6 +166,9 @@ class Publication(models.Model):
                                    max_length="10",
                                    default="disposable"
                                    )  #  вид повторения сборника
+
+    def __str__(self):
+        return self.bookName
 
 class Participation(models.Model):
     tp = (

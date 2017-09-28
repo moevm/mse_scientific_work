@@ -1,22 +1,23 @@
 {% extends 'scientificWork/template_main.html' %}
-{% block title %}Публикации{% endblock %}
-{% block pagename %}Публикации{% endblock %}
+{% block title %}Сотрудники{% endblock %}
+{% block pagename %}Сотрудники{% endblock %}
 {% block content %}
     <div class="row">
-      <div class="col-lg-9" >Название</div>
-      <div class="col-lg-2" > Автор</div>
-      <div class="col-lg-1" > Дата</div>
+      <div class="col-lg-8" >Сотрудник</div>
+      <div class="col-lg-2" > Должность</div>
+      <div class="col-lg-2" > Уч.степень</div>
     </div>
     <hr>
-    <ul>
-    {% for pub in o %}
+    {% for emp in s %}
+
         <div class="row">
-          <div class="col-lg-9" ><li><p>{{ pub.bookName }}</p></li></div>
-          <div class="col-lg-2" >{{ pub.user }}</div>
-          <div class="col-lg-1" >{{ pub.date }}</div>
+          <div class="col-lg-8" ><p>{{ emp.patronymic }}</p></div>
+
+          <div class="col-lg-2" ><p>{{  emp.typestr }}</p></div>
+          <div class="col-lg-2" ><p>{{ emp.academic_degreestr }}</p></div>
         </div>
     {% endfor %}
-    </ul>
+    <hr>
     <br/>
 <div class="panel panel-default">
     <div class="panel-heading">

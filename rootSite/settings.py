@@ -6,7 +6,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+     ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -16,12 +16,11 @@ DATABASES = {
        'ENGINE' : 'django_mongodb_engine',
        'NAME' : 'db_sw',
        'TEST': {
-            'NAME': 'mytestdatabase',
-            'CREATE_DB' : "False"
+            'NAME': 'test',
+            'CREATE_DB': "False"
         },
    }
 }
-
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
