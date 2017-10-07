@@ -27,8 +27,7 @@ def competitions(request):
 
 def publications(request):
     o = Publication.objects.all()
-<<<<<<< HEAD
-=======
+
 
     if request.method == 'GET' and request.GET.items():
         if 'author' in request.GET:
@@ -38,7 +37,7 @@ def publications(request):
         if 'date' in request.GET:
             o = o.filter(date=request.GET.get('date'))
 
->>>>>>> master
+
     template = loader.get_template('scientificWork/publications.html')
     context = RequestContext(request, {
         'o': o,
@@ -58,23 +57,23 @@ def staff(request):
             s = s.filter(academic_degree=request.GET.get('degree'))
 
     for x in s:
-<<<<<<< HEAD
+
         x.typestr=x.get_type_display()
         x.academic_degreestr=x.get_academic_degree_display()
-=======
+
         x.typestr = x.get_type_display()
         x.academic_degreestr = x.get_academic_degree_display()
 
->>>>>>> master
+
     template = loader.get_template('scientificWork/staff.html')
     context = RequestContext(request, {
         's': s,
     })
-<<<<<<< HEAD
-    print_peport_staff_docx(s)
-=======
 
->>>>>>> master
+    print_peport_staff_docx(s)
+
+
+
     return HttpResponse(template.render(context))
 
 def rads(request):
