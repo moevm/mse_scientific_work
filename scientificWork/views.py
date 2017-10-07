@@ -9,6 +9,8 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from report import print_peport_publications_docx
+from report import print_peport_staff_docx
 
 from scientificWork.models import Publication, UserProfile
 
@@ -26,6 +28,7 @@ def competitions(request):
 def publications(request):
     o = Publication.objects.all()
 
+
     if request.method == 'GET' and request.GET.items():
         if 'author' in request.GET:
             o = o.filter(user__patronymic=request.GET.get('author'))
@@ -34,10 +37,12 @@ def publications(request):
         if 'date' in request.GET:
             o = o.filter(date=request.GET.get('date'))
 
+
     template = loader.get_template('scientificWork/publications.html')
     context = RequestContext(request, {
         'o': o,
     })
+    print_peport_publications_docx(o)
     return HttpResponse(template.render(context))
 
 def staff(request):
@@ -52,13 +57,22 @@ def staff(request):
             s = s.filter(academic_degree=request.GET.get('degree'))
 
     for x in s:
+
+        x.typestr=x.get_type_display()
+        x.academic_degreestr=x.get_academic_degree_display()
+
         x.typestr = x.get_type_display()
         x.academic_degreestr = x.get_academic_degree_display()
+
 
     template = loader.get_template('scientificWork/staff.html')
     context = RequestContext(request, {
         's': s,
     })
+
+    print_peport_staff_docx(s)
+
+
 
     return HttpResponse(template.render(context))
 
