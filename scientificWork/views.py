@@ -27,24 +27,54 @@ def competitions(request):
 
 def publications(request):
     o = Publication.objects.all()
+<<<<<<< HEAD
+=======
+
+    if request.method == 'GET' and request.GET.items():
+        if 'author' in request.GET:
+            o = o.filter(user__patronymic=request.GET.get('author'))
+        if 'type' in request.GET:
+            o = o.filter(typePublication=request.GET.get('type'))
+        if 'date' in request.GET:
+            o = o.filter(date=request.GET.get('date'))
+
+>>>>>>> master
     template = loader.get_template('scientificWork/publications.html')
     context = RequestContext(request, {
         'o': o,
     })
     print_peport_publications_docx(o)
     return HttpResponse(template.render(context))
-    #return render(request,'scientificWork/publications.html')
 
 def staff(request):
     s = UserProfile.objects.all()
+
+    if request.method == 'GET' and request.GET.items():
+        if 'position' in request.GET:
+            s = s.filter(type=request.GET.get('position'))
+        if 'name' in request.GET:
+            s = s.filter(patronymic=request.GET.get('name'))
+        if 'degree' in request.GET:
+            s = s.filter(academic_degree=request.GET.get('degree'))
+
     for x in s:
+<<<<<<< HEAD
         x.typestr=x.get_type_display()
         x.academic_degreestr=x.get_academic_degree_display()
+=======
+        x.typestr = x.get_type_display()
+        x.academic_degreestr = x.get_academic_degree_display()
+
+>>>>>>> master
     template = loader.get_template('scientificWork/staff.html')
     context = RequestContext(request, {
         's': s,
     })
+<<<<<<< HEAD
     print_peport_staff_docx(s)
+=======
+
+>>>>>>> master
     return HttpResponse(template.render(context))
 
 def rads(request):

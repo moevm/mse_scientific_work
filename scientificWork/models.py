@@ -11,16 +11,23 @@ PERSON_TYPE_CHOICES = (
     ('a', 'Администратор'),
 )
 ACADEMIC_STATUS_CHOICES  = (
-  ('a','Ассистент'),
-  ('s','Старший преподаватель'),
-  ('d','Доцент'),
-  ('p','Профессор'),
+  ('a', 'Ассистент'),
+  ('s', 'Старший преподаватель'),
+  ('d', 'Доцент'),
+  ('p', 'Профессор'),
 )
 
 ACADEMIC_DEGREE_CHOICES = (
-  ('n','Без степени'),
-  ('t','Кандидат наук'),
-  ('d','Доктор наук'),
+  ('n', 'Без степени'),
+  ('t', 'Кандидат наук'),
+  ('d', 'Доктор наук'),
+)
+
+# Разграничение ролей
+
+USER_ROLES = (
+    ('u', 'Сотрудник'),
+    ('a', 'Руководитель')
 )
 
 
@@ -55,6 +62,9 @@ class UserProfile(models.Model):
   academic_status = models.CharField(max_length=1, choices=ACADEMIC_STATUS_CHOICES, null=True)
   year_of_academic_status = models.DateField(null=True)
 
+  # Доступ к данным
+  user_role = models.CharField(max_length=1, choices=USER_ROLES, null=True)
+
   @property
   def first_name(self):
     return self.user.first_name
@@ -74,6 +84,10 @@ class UserProfile(models.Model):
   @property
   def email(self):
     return self.user.email
+
+  @property
+  def privileged(self):
+    return self.is_superuser
 
   @staticmethod
   def create(login, password, email, **params):
