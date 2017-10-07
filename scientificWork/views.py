@@ -9,6 +9,8 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from report import print_peport_publications_docx
+from report import print_peport_staff_docx
 
 from scientificWork.models import Publication, UserProfile
 
@@ -25,11 +27,11 @@ def competitions(request):
 
 def publications(request):
     o = Publication.objects.all()
-    # o=' :'.join([p.bookName for p in l])
     template = loader.get_template('scientificWork/publications.html')
     context = RequestContext(request, {
         'o': o,
     })
+    print_peport_publications_docx(o)
     return HttpResponse(template.render(context))
     #return render(request,'scientificWork/publications.html')
 
@@ -38,11 +40,11 @@ def staff(request):
     for x in s:
         x.typestr=x.get_type_display()
         x.academic_degreestr=x.get_academic_degree_display()
-    # o=' :'.join([p.bookName for p in l])
     template = loader.get_template('scientificWork/staff.html')
     context = RequestContext(request, {
         's': s,
     })
+    print_peport_staff_docx(s)
     return HttpResponse(template.render(context))
 
 def rads(request):
