@@ -9,9 +9,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from report import print_peport_publications_docx
-from report import print_peport_staff_docx
-
+from report import *
 from scientificWork.models import Publication, UserProfile
 
 
@@ -43,6 +41,7 @@ def publications(request):
         'o': o,
     })
     print_peport_publications_docx(o)
+    print_list_publications_xls(o)
     return HttpResponse(template.render(context))
 
 def staff(request):
@@ -71,9 +70,7 @@ def staff(request):
     })
 
     print_peport_staff_docx(s)
-
-
-
+    print_list_staff_xls(s)
     return HttpResponse(template.render(context))
 
 def rads(request):
