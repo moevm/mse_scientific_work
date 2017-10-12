@@ -36,6 +36,8 @@ def publications(request):
             o = o.filter(typePublication=request.GET.get('type'))
         if 'date' in request.GET:
             o = o.filter(date=request.GET.get('date'))
+        if 'citing' in request.GET:
+            o = o.filter(citingBase=request.GET.get('citing'))
 
 
     template = loader.get_template('scientificWork/publications.html')

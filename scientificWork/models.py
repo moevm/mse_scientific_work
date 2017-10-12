@@ -10,7 +10,7 @@ PERSON_TYPE_CHOICES = (
     ('t', 'Преподаватель'),
     ('a', 'Администратор'),
 )
-ACADEMIC_STATUS_CHOICES  = (
+ACADEMIC_STATUS_CHOICES = (
   ('a', 'Ассистент'),
   ('s', 'Старший преподаватель'),
   ('d', 'Доцент'),
@@ -21,6 +21,13 @@ ACADEMIC_DEGREE_CHOICES = (
   ('n', 'Без степени'),
   ('t', 'Кандидат наук'),
   ('d', 'Доктор наук'),
+)
+
+#База цитирования для публикаций
+CITE_BASE_CHOICES = (
+    ('scp', 'Scopus'),
+    ('wos', 'Web of Science'),
+    ('nil', 'отсутствует')
 )
 
 # Разграничение ролей
@@ -166,6 +173,8 @@ class Publication(models.Model):
                                    max_length="10",
                                    default="disposable"
                                    )  #  вид повторения сборника
+
+    citingBase = models.CharField("База цитирования", choices=CITE_BASE_CHOICES, max_length="3", default='nil')
 
     def __str__(self):
         return self.bookName
