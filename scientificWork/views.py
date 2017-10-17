@@ -9,7 +9,9 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from report import *
+from report import print_peport_publications_docx
+from report import print_peport_staff_docx
+
 from scientificWork.models import Publication, UserProfile
 
 
@@ -34,6 +36,8 @@ def publications(request):
             o = o.filter(typePublication=request.GET.get('type'))
         if 'date' in request.GET:
             o = o.filter(date=request.GET.get('date'))
+        if 'citing' in request.GET:
+            o = o.filter(citingBase=request.GET.get('citing'))
 
 
     template = loader.get_template('scientificWork/publications.html')
@@ -41,7 +45,6 @@ def publications(request):
         'o': o,
     })
     print_peport_publications_docx(o)
-    print_list_publications_xls(o)
     return HttpResponse(template.render(context))
 
 def staff(request):
@@ -70,7 +73,9 @@ def staff(request):
     })
 
     print_peport_staff_docx(s)
-    print_list_staff_xls(s)
+
+
+
     return HttpResponse(template.render(context))
 
 def rads(request):
