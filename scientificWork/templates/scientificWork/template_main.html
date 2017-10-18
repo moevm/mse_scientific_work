@@ -33,6 +33,7 @@
               <ul class="nav navbar-nav navbar-right">
                 
 				{% if user.is_authenticated %}
+                <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
 				<li><a href="{% url 'logout' %}">Выйти</a></li>
 				{% else %}
 				<li><a href="{% url 'login' %}">Авторизация</a></li>

@@ -1,0 +1,25 @@
+{% extends 'scientificWork/template_main.html' %}
+{% load staticfiles %}
+{% block title %}Личный кабинет{% endblock %}
+{% block pagename %}Личный кабинет{% endblock %}
+{% block content %}
+    <h2>{{ user.username}}</h2>
+    <hr>
+    <h4>Публикации</h4>
+    <div class="row">
+      <div class="col-lg-9" >Название</div>
+      <div class="col-lg-2" > Автор</div>
+      <div class="col-lg-1" > Дата</div>
+    </div>
+    <ul>
+    {% for pub in o %}
+        {% if user.username == pub.user.patronymic %}
+        <div class="row">
+          <div class="col-lg-9" ><li><p>{{ pub.bookName }}</p></li></div>
+          <div class="col-lg-2" >{{ pub.user }}</div>
+          <div class="col-lg-1" >{{ pub.date }}</div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% endblock %}

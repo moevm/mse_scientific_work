@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^staff/$', views.staff, name='staff'),
+    url(r'^lk/$', views.lk, name='lk'),
 
 )
 
