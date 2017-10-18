@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import xlwt
+from openpyxl import Workbook
 from docx import Document
 from docx.shared import Inches
 from scientificWork.models import Publication, UserProfile
@@ -13,34 +14,35 @@ style0 = xlwt.XFStyle()
 style0.font = font0
 
 
-def print_list_publications_xls(c):
-    wb = xlwt.Workbook()
-    ws = wb.add_sheet('Publications')
+def print_list_publications_xlsx(c):
+    wb = Workbook()
+    ws = wb.active
 
-    ws.write(0, 2, 'Publication', style0)
-    ws.write(0, 0, 'Authors', style0)
-    i = 1
+    ws['C1'] = "Publication"
+    ws['A1'] = "Authors"
+
+    i = 3
     for x in c:
-        ws.write(i, 2, x.bookName)
-        ws.write(i, 0, x.user.patronymic)
+        ws['C'+str(i)]=x.bookName
+        ws['A' + str(i)] = x.user.patronymic
         i += 1
-    wb.save('scientificWork/static/Publications.xls')
+    wb.save('scientificWork/static/Publications.xlsx')
 
 
-def print_list_staff_xls(c):
-    wb = xlwt.Workbook()
-    ws = wb.add_sheet('Staff')
+def print_list_staff_xlsx(c):
+    wb = Workbook()
+    ws = wb.active
 
-    ws.write(0, 0, 'Employee', style0)
-    ws.write(0, 2, 'Type', style0)
-    ws.write(0, 4, 'Academic degree', style0)
-    i = 1
+    ws['A1']='Employee'
+    ws['C1']='Type'
+    ws['E1']='Academic degree'
+    i = 3
     for x in c:
-        ws.write(i, 0, x.patronymic)
-        ws.write(i, 2, x.typestr)
-        ws.write(i, 4, x.academic_degreestr)
+        ws['A' + str(i)]=x.patronymic
+        ws['C'+str(i)] = x.typestr
+        ws['E'+str(i)] = x.academic_degreestr
         i += 1
-    wb.save('scientificWork/static/Staff.xls')
+    wb.save('scientificWork/static/Staff.xlsx')
 
 
 def print_peport_publications_docx(c):
