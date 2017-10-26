@@ -33,13 +33,13 @@ def publications(request):
 
 
     if request.method == 'GET' and request.GET.items():
-        if 'author' in request.GET and request.GET.get('author'):
+        if 'author' in request.GET:
             o = o.filter(user__patronymic=request.GET.get('author'))
-        if 'type' in request.GET and request.GET.get('type'):
+        if 'type' in request.GET:
             o = o.filter(typePublication=request.GET.get('type'))
-        if 'date' in request.GET and request.GET.get('date'):
+        if 'date' in request.GET:
             o = o.filter(date=request.GET.get('date'))
-        if 'citing' in request.GET and request.GET.get('citing'):
+        if 'citing' in request.GET:
             o = o.filter(citingBase=request.GET.get('citing'))
 
 
