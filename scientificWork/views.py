@@ -18,10 +18,10 @@ def index(request):
     return render(request,'scientificWork/index.html')
 
 def lk(request):
-    o = Publication.objects.all()
+    o1 = Publication.objects.all()
     template = loader.get_template('scientificWork/lk.html')
     context = RequestContext(request, {
-        'o': o,
+        'o1': o1,
     })
     return HttpResponse(template.render(context))
 
@@ -33,12 +33,17 @@ def publications(request):
 
 
     if request.method == 'GET' and request.GET.items():
+        if 'bookName' in request.GET:
+            if len(request.GET.get('bookName'))>0:
+                o = o.filter(bookName=request.GET.get('bookName'))
         if 'author' in request.GET:
             o = o.filter(user__patronymic=request.GET.get('author'))
         if 'type' in request.GET:
-            o = o.filter(typePublication=request.GET.get('type'))
+            if request.GET.get('type')!="all":
+                o = o.filter(typePublication=request.GET.get('type'))
         if 'date' in request.GET:
-            o = o.filter(date=request.GET.get('date'))
+            if len(request.GET.get('date'))>0:
+                o = o.filter(date=request.GET.get('date'))
         if 'citing' in request.GET:
             o = o.filter(citingBase=request.GET.get('citing'))
 
@@ -68,6 +73,9 @@ def staff(request):
                 s = s.filter(patronymic=request.GET.get('name'))
         if 'degree' in request.GET:
             s = s.filter(academic_degree=request.GET.get('degree'))
+        if 'contract_date' in request.GET:
+            if len(request.GET.get('contract_date'))>0:
+                s = s.filter(contract_date=request.GET.get('contract_date'))
 
     for x in s:
 

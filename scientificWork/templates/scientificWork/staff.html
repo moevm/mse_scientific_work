@@ -4,18 +4,19 @@
 {% block pagename %}Сотрудники{% endblock %}
 {% block content %}
     <div class="row">
-      <div class="col-lg-8" >Сотрудник</div>
-      <div class="col-lg-2" > Должность</div>
-      <div class="col-lg-2" > Уч.степень</div>
+      <div class="col-lg-6" >Сотрудник</div>
+      <div class="col-lg-2" >Тип</div>
+      <div class="col-lg-2" >Уч.степень</div>
+      <div class="col-lg-2" >Дата контракта</div>
     </div>
     <hr>
     {% for emp in s %}
 
         <div class="row">
-          <div class="col-lg-8" ><p>{{ emp.patronymic }}</p></div>
-
+          <div class="col-lg-6" ><p>{{ emp.patronymic }}</p></div>
           <div class="col-lg-2" ><p>{{  emp.typestr }}</p></div>
           <div class="col-lg-2" ><p>{{ emp.academic_degreestr }}</p></div>
+          <div class="col-lg-2" ><p>{{ emp.contract_date }}</p></div>
         </div>
     {% endfor %}
     <hr>
@@ -33,19 +34,19 @@
                     <input type="text" name="name" class="form-control" placeholder="имя">
                 </div>
                 <div class="col-md-3">
+                    <label for="exampleInputEmail1">Дата контракта</label>
+                    <input type="text" name="contract_date" class="form-control" placeholder="ГГГГ-ММ-ДД">
+                </div>
+                <!--<div class="col-md-3">
                     <label for="exampleInputEmail1">Какое-то поле</label>
                     <input type="email" class="form-control" placeholder="Какое-то поле">
                 </div>
                 <div class="col-md-3">
                     <label for="exampleInputEmail1">Какое-то поле</label>
                     <input type="email" class="form-control" placeholder="Какое-то поле">
-                </div>
+                </div>-->
                 <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <input type="email" class="form-control" placeholder="Какое-то поле">
-                </div>
-                <div class="col-md-3">
-                    <label for="exampleInputEmail1">Должность</label>
+                    <label for="exampleInputEmail1">Тип</label>
                     <select id="disabledSelect" class="form-control" name="type" >
                         <option value="all">Все</option>
                         <option value="a">Администратор</option>
@@ -63,7 +64,7 @@
                         <option value="d">Доктор наук</option>
                     </select>
                 </div>
-                <div class="col-md-3">
+                <!--<div class="col-md-3">
                     <label for="exampleInputEmail1">Какое-то поле</label>
                     <select id="disabledSelect" class="form-control">
                         <option>Первый пункт</option>
@@ -78,7 +79,7 @@
                         <option>Второй пункт</option>
                         <option>Третий пункт</option>
                     </select>
-                </div>
+                </div>-->
                 <br/>
                 <div class="col-md-12 text-center filter_button">
                     <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Применить фильтр</button>
