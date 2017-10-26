@@ -25,59 +25,45 @@
         <h3 class="panel-title">Фильтр</h3>
     </div>
     <div class="panel-body">
-        <form role="form">
+        <form role="form" oninput="filter()">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="name">ФИО</label>
+                    <input name="name" type="search" class="form-control" placeholder="">
+                </div>
+                <div class="col-md-3">
+                    <label for="position">Должность</label>
+                    <select name="position" class="form-control">
+                        <option value="">Любая</option>
+                        <option value="a">Ассистент</option>
+                        <option value="s">Старший преподаватель</option>
+                        <option value="d">Доцент</option>
+                        <option value="p">Профессор</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="degree">Ученая степень</label>
+                    <select name="degree" class="form-control">
+                        <option value="">Любая</option>
+                        <option value="n">Отсутствует</option>
+                        <option value="t">Кандидат наук</option>
+                        <option value="d">Доктор наук</option>
+                    </select>
+                </div>
+            </div>
+            <div><hr></div>
             <div class="row">
                 <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <input type="email" class="form-control" placeholder="Какое-то поле">
+
                 </div>
                 <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <input type="email" class="form-control" placeholder="Какое-то поле">
+
                 </div>
                 <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <input type="email" class="form-control" placeholder="Какое-то поле">
+
                 </div>
                 <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <input type="email" class="form-control" placeholder="Какое-то поле">
-                </div>
-                <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <select id="disabledSelect" class="form-control">
-                        <option>Первый пункт</option>
-                        <option>Второй пункт</option>
-                        <option>Третий пункт</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <select id="disabledSelect" class="form-control">
-                        <option>Первый пункт</option>
-                        <option>Второй пункт</option>
-                        <option>Третий пункт</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <select id="disabledSelect" class="form-control">
-                        <option>Первый пункт</option>
-                        <option>Второй пункт</option>
-                        <option>Третий пункт</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <select id="disabledSelect" class="form-control">
-                        <option>Первый пункт</option>
-                        <option>Второй пункт</option>
-                        <option>Третий пункт</option>
-                    </select>
-                </div>
-                <br/>
-                <div class="col-md-12 text-center filter_button">
-                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Применить фильтр</button>
+                    <button type="submit" class="btn btn-default" action=""><span class="glyphicon glyphicon-search"></span> Применить фильтр</button>
                 </div>
             </div>
         </form>
