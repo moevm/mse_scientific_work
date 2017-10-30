@@ -23,8 +23,8 @@ def print_list_publications_xlsx(c):
 
     i = 3
     for x in c:
-        ws['C'+str(i)]=x.bookName
-        ws['A' + str(i)] = x.user.patronymic
+        ws['C'+str(i)]=x["bookName"]
+        ws['A' + str(i)] = x["author"]
         i += 1
     wb.save('scientificWork/static/Publications.xlsx')
 
@@ -38,9 +38,9 @@ def print_list_staff_xlsx(c):
     ws['E1']='Academic degree'
     i = 3
     for x in c:
-        ws['A' + str(i)]=x.patronymic
-        ws['C'+str(i)] = x.typestr
-        ws['E'+str(i)] = x.academic_degreestr
+        ws['A' + str(i)]=x["name"]
+        ws['C'+str(i)] = x["type"]
+        ws['E'+str(i)] = x["academic_degree"]
         i += 1
     wb.save('scientificWork/static/Staff.xlsx')
 
@@ -50,9 +50,9 @@ def print_peport_publications_docx(c):
     document.add_heading('Publications')
     for x in c:
         str = ''
-        str += x.bookName
+        str += x["bookName"]
         str += ' ( '
-        str += x.user.patronymic
+        str += x["author"]
         str += ' )'
         document.add_paragraph(str)
     document.save("scientificWork/static/Publications.docx")
@@ -63,11 +63,11 @@ def print_peport_staff_docx(c):
     document.add_heading('Staff')
     for x in c:
         str = ''
-        str += x.patronymic
+        str += x["name"]
         str += ' ( '
-        str += x.typestr
+        str += x["type"]
         str += ', '
-        str += x.academic_degreestr
+        str += x["academic_degree"]
         str += ' )'
         document.add_paragraph(str)
     document.save("scientificWork/static/Staff.docx")

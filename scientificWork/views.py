@@ -47,13 +47,20 @@ def publications(request):
         if 'citing' in request.GET:
             o = o.filter(citingBase=request.GET.get('citing'))
 
-
+    o1=[]
+    for p in o:
+        o2={}
+        o2["bookName"]=p.bookName
+        o2["author"]=p.user.patronymic
+        o2["date"]=p.date
+        o2["type"]=p.get_typePublication_display()
+        o1+=[o2]
     template = loader.get_template('scientificWork/publications.html')
     context = RequestContext(request, {
-        'o': o,
+        'o': o1,
     })
-    print_peport_publications_docx(o)
-    print_list_publications_xlsx(o)
+    print_peport_publications_docx(o1)
+    print_list_publications_xlsx(o1)
     return HttpResponse(template.render(context))
 
 def staff(request):
@@ -76,23 +83,23 @@ def staff(request):
         if 'contract_date' in request.GET:
             if len(request.GET.get('contract_date'))>0:
                 s = s.filter(contract_date=request.GET.get('contract_date'))
-
+    s1=[]
     for x in s:
-
-        x.typestr=x.get_type_display()
-        x.academic_degreestr=x.get_academic_degree_display()
-
-        x.typestr = x.get_type_display()
-        x.academic_degreestr = x.get_academic_degree_display()
-
+        s2={}
+        s2["type"]=x.get_type_display()
+        s2["academic_degree"]=x.get_academic_degree_display()
+        s2["name"]=x.patronymic
+        s2["contract_date"]=x.contract_date
+        s2["academic_status"]=x.get_academic_status_display()
+        s1+=[s2]
 
     template = loader.get_template('scientificWork/staff.html')
     context = RequestContext(request, {
-        's': s,
+        's': s1,
     })
 
-    print_peport_staff_docx(s)
-    print_list_staff_xlsx(s)
+    print_peport_staff_docx(s1)
+    print_list_staff_xlsx(s1)
 
 
     return HttpResponse(template.render(context))

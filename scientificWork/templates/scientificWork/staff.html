@@ -4,18 +4,20 @@
 {% block pagename %}Сотрудники{% endblock %}
 {% block content %}
     <div class="row">
-      <div class="col-lg-6" >Сотрудник</div>
+      <div class="col-lg-4" >Сотрудник</div>
       <div class="col-lg-2" >Тип</div>
       <div class="col-lg-2" >Уч.степень</div>
+      <div class="col-lg-2" >Уч.звание</div>
       <div class="col-lg-2" >Дата контракта</div>
     </div>
     <hr>
     {% for emp in s %}
 
         <div class="row">
-          <div class="col-lg-6" ><p>{{ emp.patronymic }}</p></div>
-          <div class="col-lg-2" ><p>{{  emp.typestr }}</p></div>
-          <div class="col-lg-2" ><p>{{ emp.academic_degreestr }}</p></div>
+          <div class="col-lg-4" ><p>{{ emp.name }}</p></div>
+          <div class="col-lg-2" ><p>{{  emp.type }}</p></div>
+          <div class="col-lg-2" ><p>{{ emp.academic_degree }}</p></div>
+          <div class="col-lg-2" ><p>{{ emp.academic_status }}</p></div>
           <div class="col-lg-2" ><p>{{ emp.contract_date }}</p></div>
         </div>
     {% endfor %}

@@ -4,7 +4,8 @@
 {% block pagename %}Публикации{% endblock %}
 {% block content %}
     <div class="row">
-      <div class="col-lg-10" >Название</div>
+      <div class="col-lg-8" >Название</div>
+      <div class="col-lg-2" >Тип</div>
       <div class="col-lg-1" > Автор</div>
       <div class="col-lg-1" > Дата</div>
     </div>
@@ -12,8 +13,9 @@
     <ul>
     {% for pub in o %}
         <div class="row">
-          <div class="col-lg-10" ><li><p>{{ pub.bookName }}</p></li></div>
-          <div class="col-lg-1" >{{ pub.user }}</div>
+          <div class="col-lg-8" ><li><p>{{ pub.bookName }}</p></li></div>
+          <div class="col-lg-2" >{{ pub.type }}</div>
+          <div class="col-lg-1" >{{ pub.author }}</div>
           <div class="col-lg-1" >{{ pub.date }}</div>
         </div>
     {% endfor %}
