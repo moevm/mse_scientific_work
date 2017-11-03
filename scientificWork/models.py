@@ -48,8 +48,6 @@ class UserProfile(models.Model):
   stepic_id = models.CharField(max_length=100, null=True)
 
   type = models.CharField(max_length=2, choices=PERSON_TYPE_CHOICES, default='s')
-  typestr = ' '
-  academic_degreestr=' '
   # Дата текущего избрания или зачисления на преподавательскую должность
   election_date = models.DateField(null=True)
 

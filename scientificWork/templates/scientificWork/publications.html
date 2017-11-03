@@ -4,16 +4,18 @@
 {% block pagename %}Публикации{% endblock %}
 {% block content %}
     <div class="row">
-      <div class="col-lg-9" >Название</div>
-      <div class="col-lg-2" > Автор</div>
+      <div class="col-lg-8" >Название</div>
+      <div class="col-lg-2" >Тип</div>
+      <div class="col-lg-1" > Автор</div>
       <div class="col-lg-1" > Дата</div>
     </div>
     <hr>
     <ul>
     {% for pub in o %}
         <div class="row">
-          <div class="col-lg-9" ><li><p>{{ pub.bookName }}</p></li></div>
-          <div class="col-lg-2" >{{ pub.user }}</div>
+          <div class="col-lg-8" ><li><p>{{ pub.bookName }}</p></li></div>
+          <div class="col-lg-2" >{{ pub.type }}</div>
+          <div class="col-lg-1" >{{ pub.author }}</div>
           <div class="col-lg-1" >{{ pub.date }}</div>
         </div>
     {% endfor %}
@@ -24,59 +26,34 @@
         <h3 class="panel-title">Фильтр</h3>
     </div>
     <div class="panel-body">
-        <form role="form">
+        <form role="form" action="{% url 'publications' %}" >
             <div class="row">
                 <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <input type="email" class="form-control" placeholder="Какое-то поле">
+                    <label for="exampleInputEmail1">Название</label>
+                    <input type="text" name="bookName" class="form-control" placeholder="Название публикации">
                 </div>
                 <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <input type="email" class="form-control" placeholder="Какое-то поле">
+                    <label for="exampleInputEmail1">Дата издания</label>
+                    <input type="text" name="date" class="form-control" placeholder="ГГГГ-ММ-ДД">
                 </div>
                 <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <input type="email" class="form-control" placeholder="Какое-то поле">
+                    <label for="exampleInputEmail1">Автор</label>
+                    <input type="email" class="form-control" placeholder="Имя автора">
                 </div>
                 <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <input type="email" class="form-control" placeholder="Какое-то поле">
-                </div>
-                <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <select id="disabledSelect" class="form-control">
-                        <option>Первый пункт</option>
-                        <option>Второй пункт</option>
-                        <option>Третий пункт</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <select id="disabledSelect" class="form-control">
-                        <option>Первый пункт</option>
-                        <option>Второй пункт</option>
-                        <option>Третий пункт</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <select id="disabledSelect" class="form-control">
-                        <option>Первый пункт</option>
-                        <option>Второй пункт</option>
-                        <option>Третий пункт</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="exampleInputEmail1">Какое-то поле</label>
-                    <select id="disabledSelect" class="form-control">
-                        <option>Первый пункт</option>
-                        <option>Второй пункт</option>
-                        <option>Третий пункт</option>
+                    <label for="exampleInputEmail1">Тип публикации</label>
+                    <select id="disabledSelect" name="type" class="form-control">
+                        <option value="all">Все</option>
+                        <option value="guidelines">Методическое указание</option>
+                        <option value="book">Книга</option>
+                        <option value="journal">Статья в журнале</option>
+                        <option value="compilation">Конспект лекции/сборник докладов</option>
+                        <option value="collection">Сборник трудов</option>
                     </select>
                 </div>
                 <br/>
                 <div class="col-md-12 text-center filter_button">
-                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Применить фильтр</button>
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Применить фильтр</button>
                 </div>
             </div>
         </form>
