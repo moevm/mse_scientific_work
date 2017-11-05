@@ -12,14 +12,6 @@
       <div class="col-lg-1" > Дата</div>
     </div>
     <ul>
-    {% for pub in o1 %}
-        {% if user.username == pub.user.patronymic %}
-        <div class="row">
-          <div class="col-lg-9" ><li><p>{{ pub.bookName }}</p></li></div>
-          <div class="col-lg-2" >{{ pub.user }}</div>
-          <div class="col-lg-1" >{{ pub.date }}</div>
-        </div>
-        {% endif %}
-    {% endfor %}
+    {{ o1.patronymic }}
     </ul>
 {% endblock %}

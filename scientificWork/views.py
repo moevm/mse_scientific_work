@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.contrib.auth import logout
+from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import loader, RequestContext
+import datetime
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from report import *
 
@@ -19,10 +22,16 @@ def index(request):
 
 
 def lk(request):
-    o1 = Publication.objects.all()
+    o=[]
+    o2={}
+    us=request.user
+    profile = UserProfile.objects.get(user=us)
+    o2["name"]=profile.patronymic
+    o2["type"]=profile.get_type_display()
+    #o2[""]
     template = loader.get_template('scientificWork/lk.html')
     context = RequestContext(request, {
-        'o1': o1,
+        'o1': profile,
     })
     return HttpResponse(template.render(context))
 
@@ -39,17 +48,26 @@ def publications(request):
         if 'bookName' in request.GET:
             if len(request.GET.get('bookName')) > 0:
                 o = o.filter(bookName=request.GET.get('bookName'))
-                filters += ['bookName']
+                if o.filter(bookName=request.GET.get('bookName')).exists(): filters += ['bookName']
         if 'author' in request.GET:
-            o = o.filter(user__patronymic=request.GET.get('author'))
+            author_name=request.GET.get('author')
+            if UserProfile.objects.filter(patronymic=author_name).exists():
+                author=UserProfile.objects.get(patronymic=author_name)
+                o = o.filter(user=author)
+                filters += ['author']
+            elif len(author_name)>0:
+                o = o.filter(user=None)
         if 'type' in request.GET:
             if request.GET.get('type') != "all":
                 o = o.filter(typePublication=request.GET.get('type'))
-                filters += ['type']
+                if o.filter(typePublication=request.GET.get('type')).exists():filters += ['type']
         if 'date' in request.GET:
-            if len(request.GET.get('date')) > 0:
-                o = o.filter(date=request.GET.get('date'))
-                filters += ['date']
+            try:
+                if len(request.GET.get('date')) > 0:
+                    o = o.filter(date=request.GET.get('date'))
+                    if o.filter(date=request.GET.get('date')).exists():filters += ['date']
+            except(ValidationError):
+                o = o.filter(date=None)
         if 'citing' in request.GET:
             o = o.filter(citingBase=request.GET.get('citing'))
 
@@ -85,11 +103,14 @@ def staff(request):
         if 'name' in request.GET:
             if len(request.GET.get('name')) > 0:
                 s = s.filter(patronymic=request.GET.get('name'))
-                filters += ["name"]
+                if s.filter(patronymic=request.GET.get('name')).exists(): filters += ["name"]
         if 'contract_date' in request.GET:
-            if len(request.GET.get('contract_date')) > 0:
-                s = s.filter(contract_date=request.GET.get('contract_date'))
-                filters += ["contract_date"]
+            try:
+                if len(request.GET.get('contract_date')) > 0:
+                    s = s.filter(contract_date=request.GET.get('contract_date'))
+                    filters += ["contract_date"]
+            except(ValidationError):
+                s = s.filter(contract_date=None)
         if 'academic_status' in request.GET:
             if request.GET.get('academic_status') != "all":
                 s = s.filter(academic_status=request.GET.get('academic_status'))

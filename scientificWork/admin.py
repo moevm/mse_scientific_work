@@ -10,5 +10,5 @@ from scientificWork.models import Publication, Participation, Rand, UserProfile
 admin.site.register(Publication)
 admin.site.register(Rand)
 admin.site.register(Participation)
-admin.site.unregister(User)
+#admin.site.unregister(User)
 admin.site.register(UserProfile)
