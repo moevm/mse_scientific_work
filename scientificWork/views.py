@@ -22,16 +22,19 @@ def index(request):
 
 
 def lk(request):
-    o=[]
-    o2={}
     us=request.user
     profile = UserProfile.objects.get(user=us)
-    o2["name"]=profile.patronymic
-    o2["type"]=profile.get_type_display()
-    #o2[""]
+    profile_d=UserProfile_d(profile)
+    o=Publication.objects.all()
+    o=o.filter(user=profile)
+    o1 = []
+    for p in o:
+        o2 = Publication_d(p)
+        o1 += [o2]
     template = loader.get_template('scientificWork/lk.html')
     context = RequestContext(request, {
-        'o1': profile,
+        'profile': profile_d,
+        'publications':o1,
     })
     return HttpResponse(template.render(context))
 
@@ -73,11 +76,7 @@ def publications(request):
 
     o1 = []
     for p in o:
-        o2 = {}
-        o2["bookName"] = p.bookName
-        o2["author"] = p.user.patronymic
-        o2["date"] = p.date
-        o2["type"] = p.get_typePublication_display()
+        o2 = Publication_d(p)
         o1 += [o2]
     template = loader.get_template('scientificWork/publications.html')
     context = RequestContext(request, {
@@ -117,12 +116,7 @@ def staff(request):
                 filters += ["academic_status"]
     s1 = []
     for x in s:
-        s2 = {}
-        s2["type"] = x.get_type_display()
-        s2["academic_degree"] = x.get_academic_degree_display()
-        s2["name"] = x.patronymic
-        s2["contract_date"] = x.contract_date
-        s2["academic_status"] = x.get_academic_status_display()
+        s2 = UserProfile_d(x)
         s1 += [s2]
 
     template = loader.get_template('scientificWork/staff.html')
@@ -176,3 +170,20 @@ def user_logout(request):
 
     # Перенаправляем пользователя обратно на главную страницу.
     return HttpResponseRedirect('/scientificWork/')
+
+def UserProfile_d(x):
+    s2 = {}
+    s2["type"] = x.get_type_display()
+    s2["academic_degree"] = x.get_academic_degree_display()
+    s2["name"] = x.patronymic
+    s2["contract_date"] = x.contract_date
+    s2["academic_status"] = x.get_academic_status_display()
+    return s2
+
+def Publication_d(p):
+    o2 = {}
+    o2["bookName"] = p.bookName
+    o2["author"] = p.user.patronymic
+    o2["date"] = p.date
+    o2["type"] = p.get_typePublication_display()
+    return o2
