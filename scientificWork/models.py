@@ -92,7 +92,7 @@ class UserProfile(models.Model):
 
   @property
   def privileged(self):
-    return self.is_superuser
+    return self.user.is_superuser
 
   @staticmethod
   def create(login, password, email, **params):

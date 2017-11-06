@@ -1,0 +1,31 @@
+{% extends 'scientificWork/template_main.html' %}
+{% load staticfiles %}
+{% block title %}Добавление публикации{% endblock %}
+{% block pagename %}Добавление публикации{% endblock %}
+{% block content %}
+{% if st == 0 %}
+<form role="form" action="{% url 'addPublication' %}" >
+<div class="row">
+    <div class="col-md-3">
+        <label for="text">Название публикации</label>
+        <input type="text" name="bookName" class="form-control" placeholder="Название публикации">
+    </div>
+</div>
+    <hr>
+    <div class="col-md-2">
+<button type="submit" class="btn btn-success btn-md"  >Добавить</button>
+    </div>
+</form>
+    <div class="col-md-2">
+     <form role="form" action="{% url 'lk' %}" ><button type="submit" class="btn btn-danger btn-md"  >Отмена</button></form>
+    </div>
+{% endif %}
+{% if st == 1 %}
+    <h4>Публикация успешно добавлена</h4>
+    <hr>
+    <div class="row">
+        <div class="col-md-3"><form role="form" action="{% url 'addPublication' %}" ><button type="submit" class="btn btn-default btn-md"  >Добавить еще одну публикацию</button></form></div>
+        <div class="col-md-3"><form role="form" action="{% url 'lk' %}" ><button type="submit" class="btn btn-default btn-md"  >Вернуться в личный кабинет</button></form></div>
+    </div>
+{% endif %}
+{% endblock %}

@@ -22,11 +22,15 @@ def index(request):
 
 
 def lk(request):
-    us=request.user
+    us = request.user
     profile = UserProfile.objects.get(user=us)
-    profile_d=UserProfile_d(profile)
-    o=Publication.objects.all()
-    o=o.filter(user=profile)
+    profile_d = UserProfile_d(profile)
+    o = Publication.objects.all()
+    if 'deleteBook' in request.GET:
+        if o.filter(id=request.GET.get('deleteBook')).exists():
+            c = o.filter(id=request.GET.get('deleteBook'))
+            c.delete()
+    o = o.filter(user=profile)
     o1 = []
     for p in o:
         o2 = Publication_d(p)
@@ -34,9 +38,39 @@ def lk(request):
     template = loader.get_template('scientificWork/lk.html')
     context = RequestContext(request, {
         'profile': profile_d,
-        'publications':o1,
+        'publications': o1,
     })
     return HttpResponse(template.render(context))
+
+
+def addPublication(request):
+    '''o = Publication.objects.all()
+    c1 = Publication.objects.all()
+    c = c1.filter(bookName=u'блабла')
+    c.delete()'''
+    if request.user.is_authenticated():
+        st = 0
+        if 'bookName' in request.GET:
+            us = request.user
+            profile = UserProfile.objects.get(user=us)
+            if len(request.GET.get('bookName')) > 0:
+                bookName = request.GET.get('bookName')
+                newp = Publication(user=profile, publishingHouseName="ETU", place="SPb",
+                                   date=datetime.datetime.strptime("2017-09-09", "%Y-%m-%d"), volume=3, unitVolume="p",
+                                   edition=9, type="book1", typePublication='book', bookName=bookName, isbn="jj",
+                                   number=1, editor="Andy", reiteration='disposable', citingBase='nil')
+                newp.save()
+                st = 1
+
+            else:
+                st = 2
+        template = loader.get_template('scientificWork/addPublication.html')
+        context = RequestContext(request, {
+            'st': st,
+        })
+        return HttpResponse(template.render(context))
+    else:
+        return HttpResponse("Авторизуйтесь или зарегистрируйтесь")
 
 
 def competitions(request):
@@ -45,30 +79,33 @@ def competitions(request):
 
 def publications(request):
     o = Publication.objects.all()
-
     filters = []
+    if 'deleteBook' in request.GET:
+        if o.filter(id=request.GET.get('deleteBook')).exists():
+            c = o.filter(id=request.GET.get('deleteBook'))
+            c.delete()
     if request.method == 'GET' and request.GET.items():
         if 'bookName' in request.GET:
             if len(request.GET.get('bookName')) > 0:
                 o = o.filter(bookName=request.GET.get('bookName'))
                 if o.filter(bookName=request.GET.get('bookName')).exists(): filters += ['bookName']
         if 'author' in request.GET:
-            author_name=request.GET.get('author')
+            author_name = request.GET.get('author')
             if UserProfile.objects.filter(patronymic=author_name).exists():
-                author=UserProfile.objects.get(patronymic=author_name)
+                author = UserProfile.objects.get(patronymic=author_name)
                 o = o.filter(user=author)
                 filters += ['author']
-            elif len(author_name)>0:
+            elif len(author_name) > 0:
                 o = o.filter(user=None)
         if 'type' in request.GET:
             if request.GET.get('type') != "all":
                 o = o.filter(typePublication=request.GET.get('type'))
-                if o.filter(typePublication=request.GET.get('type')).exists():filters += ['type']
+                if o.filter(typePublication=request.GET.get('type')).exists(): filters += ['type']
         if 'date' in request.GET:
             try:
                 if len(request.GET.get('date')) > 0:
                     o = o.filter(date=request.GET.get('date'))
-                    if o.filter(date=request.GET.get('date')).exists():filters += ['date']
+                    if o.filter(date=request.GET.get('date')).exists(): filters += ['date']
             except(ValidationError):
                 o = o.filter(date=None)
         if 'citing' in request.GET:
@@ -171,6 +208,7 @@ def user_logout(request):
     # Перенаправляем пользователя обратно на главную страницу.
     return HttpResponseRedirect('/scientificWork/')
 
+
 def UserProfile_d(x):
     s2 = {}
     s2["type"] = x.get_type_display()
@@ -180,8 +218,10 @@ def UserProfile_d(x):
     s2["academic_status"] = x.get_academic_status_display()
     return s2
 
+
 def Publication_d(p):
     o2 = {}
+    o2["id"] = p.id
     o2["bookName"] = p.bookName
     o2["author"] = p.user.patronymic
     o2["date"] = p.date

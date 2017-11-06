@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^staff/$', views.staff, name='staff'),
     url(r'^lk/$', views.lk, name='lk'),
-
+    url(r'^addPublication/$', views.addPublication, name='addPublication'),
 )
 
 urlpatterns += staticfiles_urlpatterns()
