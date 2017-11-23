@@ -1,0 +1,27 @@
+{% extends 'scientificWork/template_main.html' %}
+{% load staticfiles %}
+{% block title %}Прикрепление файла{% endblock %}
+{% block pagename %}Прикрепление файла{% endblock %}
+{% block content %}
+    <h4>Публикация: {{ pubname }}</h4>
+  <form method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    <div class="form-group col-sm-6" style="padding-right: 10px;">
+   <label for="file"></label>
+   <input type="file" name="myfile" id="file" class="form-control" data-filename-placement="inside" title="Выбрать файл" />
+    </div><br>
+      <div class="form-group col-sm-6" style="padding-left: 10px;">
+   <button type="submit" class="btn" name="pub" value="{{ pub }}">Отправить</button>
+      </div><br>
+    <!--<input type="file" name="myfile">
+    <button class="btn btn-default btn-xs" type="submit" name="pub" value="{{ pub }}">Upload</button>-->
+  </form>
+
+  {#% for p in m %#}
+      <!--<br>
+      {#  { p.owner.bookName }#}
+      <br>
+      <a href=" {{ p.media_file.url }}" download="">{{ p.media_file.name }}</a>-->
+  {#% endfor %#}
+    <script>$( document ).ready(function() { $('#file').bootstrapFileInput(); })</script>
+{% endblock %}

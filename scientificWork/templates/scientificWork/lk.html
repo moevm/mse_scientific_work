@@ -43,7 +43,7 @@
     <ul>
     {% for pub in publications %}
         <div class="row">
-          <div class="col-lg-3" ><li><p>{{ pub.bookName }}</p></li></div>
+          <div class="col-lg-3" ><li><p>{{ pub.bookName }}{% for x in pub.f %}<br><a href="{{ x.media_file.url }}" download="">{{ x.media_file.name }}</a>{% endfor %}<br><a href="{% url "upload_file" %}?pub={{ pub.id }}">Прикрепить</a></p></li></div>
           <div class="col-lg-2" >{{ pub.type }}</div>
           <div class="col-lg-1" >{{ pub.author }}</div>
           <div class="col-lg-1" >{{ pub.date }}</div>
