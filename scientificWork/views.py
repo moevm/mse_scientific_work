@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.contrib.auth import logout
+from django.core.context_processors import csrf
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, render_to_response
@@ -82,9 +83,28 @@ def addPublication(request):
 def competitions(request):
     return render(request, 'scientificWork/competitions.html')
 
+def registration(request):
+    if request.method == 'POST':
+        username=request.POST['username']
+        password=request.POST['password']
+        user = User.objects.create_user(username=username, password = password)
+        user.is_superuser=False
+        user.is_staff=False
+        user.save()
+        profile=UserProfile(user=user,patronymic=username,birth_date=datetime.datetime.strptime("1985-10-11", "%Y-%m-%d"),study_group="1",
+                            github_id="1",stepic_id='1',type='s',election_date=datetime.datetime.strptime("2005-10-11", "%Y-%m-%d"),position='1',
+                            contract_date=datetime.datetime.strptime("2005-10-11", "%Y-%m-%d"),academic_degree='n',year_of_academic_degree=datetime.datetime.strptime("2015-10-11", "%Y-%m-%d"),
+                            academic_status='a',year_of_academic_status=datetime.datetime.strptime("2008-10-11", "%Y-%m-%d"),
+                            user_role='u')
+        profile.save()
+        ctx = {}
+        ctx.update(csrf(request))
+        ctx['username'] = request.POST['username']
+        return render(request, "scientificWork/registration.html", ctx)
+    else:
+        return render(request, 'scientificWork/registration.html')
 
 def publications(request):
-
     o = Publication.objects.all()
     filters = []
     f = MediaModel.objects.all()
