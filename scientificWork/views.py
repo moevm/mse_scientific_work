@@ -47,6 +47,38 @@ def lk(request):
     else:
         return HttpResponse("Пожалуйста авторизуйтесь")
 
+def editPublication(request):
+    if request.user.is_authenticated():
+        st = 0
+        id = request.GET.get('id')
+        pub = Publication.objects.get(id=id)
+        pubdate=pub.date
+        pubdate=datetime.date.strftime(pubdate,"%Y-%m-%d")
+        if 'bookName' in request.GET:
+            bookName = request.GET.get('bookName')
+            typePublication = request.GET.get('type')
+            date = request.GET.get('date')
+            publishingHouseName = request.GET.get('publishingHouseName')
+            place = request.GET.get('place')
+            volume = request.GET.get('volume')
+            unitVolume = request.GET.get('unitVolume')
+            edition = request.GET.get('edition')
+            citingBase = request.GET.get('citingBase')
+            st = 1
+            pub.publishingHouseName=publishingHouseName; pub.place=place; pub.date=datetime.datetime.strptime(date, "%Y-%m-%d")
+            pub.volume=volume; pub.unitVolume=unitVolume; pub.edition=edition; pub.typePublication=typePublication; pub.bookName=bookName
+            pub.citingBase=citingBase
+            pub.save()
+        template = loader.get_template('scientificWork/editPublication.html')
+        context = RequestContext(request, {
+            'st': st, 'pub': pub, 'id':id, 'pubdate':pubdate
+        })
+        return HttpResponse(template.render(context))
+    else:
+        return HttpResponse("Авторизуйтесь или зарегистрируйтесь")
+
+
+
 
 def addPublication(request):
     if request.user.is_authenticated():
@@ -63,18 +95,19 @@ def addPublication(request):
             unitVolume=request.GET.get('unitVolume')
             edition=request.GET.get('edition')
             citingBase=request.GET.get('citingBase')
-            newp = Publication(user=profile, publishingHouseName=publishingHouseName, place=place,
-                                   date=datetime.datetime.strptime(date, "%Y-%m-%d"), volume=volume, unitVolume=unitVolume,
-                                   edition=edition, type="book1", typePublication=typePublication, bookName=bookName, isbn="jj",
-                                   number=1, editor="Andy", reiteration='disposable', citingBase=citingBase)
-            newp.save()
             st = 1
-
+            p = Publication(user=profile, publishingHouseName=publishingHouseName, place=place,
+                            date=datetime.datetime.strptime(date, "%Y-%m-%d"), volume=volume, unitVolume=unitVolume,
+                            edition=edition, type="book1", typePublication=typePublication, bookName=bookName,
+                            isbn="jj",
+                            number=1, editor="Andy", reiteration='disposable', citingBase=citingBase)
+            p.save()
 
         template = loader.get_template('scientificWork/addPublication.html')
         context = RequestContext(request, {
             'st': st,
         })
+
         return HttpResponse(template.render(context))
     else:
         return HttpResponse("Авторизуйтесь или зарегистрируйтесь")
@@ -84,25 +117,38 @@ def competitions(request):
     return render(request, 'scientificWork/competitions.html')
 
 def registration(request):
+    ctx = {}
     if request.method == 'POST':
         username=request.POST['username']
         password=request.POST['password']
+        birth_date=request.POST['birth_date']
+        github_id = request.POST['github_id']
+        stepic_id = request.POST['stepic_id']
+        type = request.POST['type']
+        position = request.POST['position']
+        election_date = request.POST['election_date']
+        contract_date = request.POST['contract_date']
+        academic_degree = request.POST['academic_degree']
+        year_of_academic_degree = request.POST['year_of_academic_degree']
+        academic_status = request.POST['academic_status']
+        year_of_academic_status = request.POST['year_of_academic_status']
         user = User.objects.create_user(username=username, password = password)
         user.is_superuser=False
         user.is_staff=False
         user.save()
-        profile=UserProfile(user=user,patronymic=username,birth_date=datetime.datetime.strptime("1985-10-11", "%Y-%m-%d"),study_group="1",
-                            github_id="1",stepic_id='1',type='s',election_date=datetime.datetime.strptime("2005-10-11", "%Y-%m-%d"),position='1',
-                            contract_date=datetime.datetime.strptime("2005-10-11", "%Y-%m-%d"),academic_degree='n',year_of_academic_degree=datetime.datetime.strptime("2015-10-11", "%Y-%m-%d"),
-                            academic_status='a',year_of_academic_status=datetime.datetime.strptime("2008-10-11", "%Y-%m-%d"),
+        profile=UserProfile(user=user,patronymic=username,birth_date=datetime.datetime.strptime(birth_date, "%Y-%m-%d"),study_group="1",
+                            github_id=github_id,stepic_id=stepic_id,type=type,election_date=datetime.datetime.strptime(election_date, "%Y-%m-%d"),position=position,
+                            contract_date=datetime.datetime.strptime(contract_date, "%Y-%m-%d"),academic_degree=academic_degree,year_of_academic_degree=datetime.datetime.strptime(year_of_academic_degree, "%Y-%m-%d"),
+                            academic_status=academic_status,year_of_academic_status=datetime.datetime.strptime(year_of_academic_status, "%Y-%m-%d"),
                             user_role='u')
         profile.save()
-        ctx = {}
         ctx.update(csrf(request))
+        ctx['st'] = 1
         ctx['username'] = request.POST['username']
         return render(request, "scientificWork/registration.html", ctx)
     else:
-        return render(request, 'scientificWork/registration.html')
+        ctx['st'] = 0
+        return render(request, 'scientificWork/registration.html', ctx)
 
 def publications(request):
     o = Publication.objects.all()
@@ -160,6 +206,14 @@ def staff(request):
     s = UserProfile.objects.all()
     filters = []
     if request.method == 'GET' and request.GET.items():
+        if 'deleteProfile' in request.GET:
+            if s.filter(id=request.GET.get('deleteProfile')).exists():
+                c = s.get(id=request.GET.get('deleteProfile'))
+                user=c.user
+                #users=User.objects.all()
+                #prof=users.filter()
+                c.delete()
+                user.delete()
         if 'academic_degree' in request.GET:
             if request.GET.get('academic_degree') != "all":
                 s = s.filter(academic_degree=request.GET.get('academic_degree'))
@@ -243,10 +297,11 @@ def user_logout(request):
 
 def UserProfile_d(x):
     s2 = {}
+    s2["id"] = x.id
     s2["type"] = x.get_type_display()
     s2["academic_degree"] = x.get_academic_degree_display()
     s2["name"] = x.patronymic
-    s2["contract_date"] = x.contract_date
+    s2["contract_date"] = datetime.date.strftime(x.contract_date,"%Y-%m-%d")
     s2["academic_status"] = x.get_academic_status_display()
     return s2
 
@@ -256,7 +311,7 @@ def Publication_d(p):
     o2["id"] = p.id
     o2["bookName"] = p.bookName
     o2["author"] = p.user.patronymic
-    o2["date"] = p.date
+    o2["date"] = datetime.date.strftime(p.date,"%Y-%m-%d")
     o2["type"] = p.get_typePublication_display()
     f=MediaModel.objects.all()
     f1=f.filter(owner=p)

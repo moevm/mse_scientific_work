@@ -4,16 +4,68 @@
 {% block content %}
 <form role="form" method='post' action="{% url 'registration' %}" >
 {% csrf_token %}
+    {% if st == 0 %}
     <div class="row">
-    <div class="col-md-3">
-        <label for="text">Имя пользователя</label>
-        <input type="text" name="username" class="form-control" placeholder="Имя пользователя" required>
-        <label for="password">Пароль</label>
-        <input type="password" name="password" class="form-control" placeholder="Пароль" required>
-        {{ q.h }}
+        <div class="col-md-3">
+            <label>Имя пользователя</label>
+            <input type="text" name="username" class="form-control" placeholder="Имя пользователя" required>
+            <br>
+            <label>Пароль</label>
+            <input type="password" name="password" class="form-control" placeholder="Пароль" required>
+            <br>
+            <label>Дата рождения</label>
+            <input type="date" name="birth_date" class="form-control" placeholder="Дата рождения" required>
+            <br>
+            <label>github id</label>
+            <input type="text" name="github_id" class="form-control" value="None" placeholder="github_id" required>
+            <br>
+            <label>stepic id</label>
+            <input type="text" name="stepic_id" class="form-control" value="None" placeholder="stepic_id" required>
+            <br>
+            <label>Тип пользователя</label>
+            <select name="type" class="form-control">
+                <option value="s">Студент</option>
+                <option  value="h">Староста</option>
+                <option selected value="t">Преподаватель</option>
+            </select>
+            <br>
+            <label>Дата текущего избрания или зачисления на преподавательскую должность</label>
+            <input type="date" name="election_date" class="form-control" placeholder="Дата текущего избрания или зачисления на преподавательскую должность" required>
+            <br>
+            <label>Должность</label>
+            <input type="text" name="position" class="form-control"  placeholder="Должность" required>
+            <br>
+            <label>Срок окончания трудового договора</label>
+            <input type="date" name="contract_date" class="form-control" placeholder="Срок окончания трудового договора" required>
+            <br>
+            <label>Ученая степень</label>
+            <select name="academic_degree" class="form-control">
+                <option selected value="n">Без степени</option>
+                <option  value="t">Кандидат наук</option>
+                <option  value="d">Доктор наук</option>
+            </select>
+            <br>
+            <label>Год присвоения учебной степени</label>
+            <input type="date" name="year_of_academic_degree" class="form-control" placeholder="Год присвоения учебной степени" required>
+            <br>
+            <label>Учебное звание</label>
+            <select name="academic_status" class="form-control">
+                <option selected value="a">Ассистент</option>
+                <option  value="s">Старший преподаватель</option>
+                <option  value="d">Доцент</option>
+                <option  value="p">Профессор</option>
+            </select>
+            <br>
+            <label>Год присвоения учебного звания</label>
+            <input type="date" name="year_of_academic_status" class="form-control" placeholder="Год присвоения учебного звания" required>
+        </div>
     </div>
-    </div>
-    <button type="submit" class="btn btn-success btn-md"  >Добавить</button>
+        <hr>
+    <button type="submit" class="btn btn-success btn-md"  >Зарегистрировать</button>
 </form>
-    <p>{{ username }}</p>
+    {% endif %}
+    {% if st == 1 %}
+        <h3> Пользователь {{ username }} успешно зарегистрирован.</h3>
+        <a href="{% url 'login' %}">Авторизация</a>
+    {% endif %}
 {% endblock %}

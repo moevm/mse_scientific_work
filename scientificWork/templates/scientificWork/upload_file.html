@@ -3,6 +3,9 @@
 {% block title %}Прикрепление файла{% endblock %}
 {% block pagename %}Прикрепление файла{% endblock %}
 {% block content %}
+    {% if pub == 0 %}
+        <h4>Файл успешно добавлен к публикации</h4>
+    {% else %}
     <h4>Публикация: {{ pubname }}</h4>
   <form method="post" enctype="multipart/form-data" >
     {% csrf_token %}
@@ -16,12 +19,12 @@
     <!--<input type="file" name="myfile">
     <button class="btn btn-default btn-xs" type="submit" name="pub" value="{{ pub }}">Upload</button>-->
   </form>
-
+    {% endif %}
   {#% for p in m %#}
       <!--<br>
       {#  { p.owner.bookName }#}
       <br>
       <a href=" {{ p.media_file.url }}" download="">{{ p.media_file.name }}</a>-->
   {#% endfor %#}
-    <script>$( document ).ready(function() { $('#file').bootstrapFileInput(); })</script>
+
 {% endblock %}

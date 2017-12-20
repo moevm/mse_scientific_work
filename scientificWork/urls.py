@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^staff/$', views.staff, name='staff'),
     url(r'^lk/$', views.lk, name='lk'),
     url(r'^addPublication/$', views.addPublication, name='addPublication'),
+    url(r'^editPublication/$', views.editPublication, name='editPublication'),
     url(r'^upload_file/$', views.upload_file, name='upload_file'),
     url(r'^registration/$', views.registration, name='registration'),
 )

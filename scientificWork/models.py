@@ -55,7 +55,7 @@ class UserProfile(models.Model):
   position = models.CharField(max_length=40, null=True)
 
   # Срок окончания трудового договора
-  contract_date = models.DateField(null=True)  # Возможн поменяю
+  contract_date = models.DateField(null=True)  # Возможно поменяю
 
   # Ученая степень
   academic_degree = models.CharField(max_length=1, choices=ACADEMIC_DEGREE_CHOICES, null=True)
