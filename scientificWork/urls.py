@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
+from django.conf import settings
+from django.conf.urls.static import static
 from scientificWork import views
 
 urlpatterns = patterns('',
@@ -15,6 +16,9 @@ urlpatterns = patterns('',
     url(r'^staff/$', views.staff, name='staff'),
     url(r'^lk/$', views.lk, name='lk'),
     url(r'^addPublication/$', views.addPublication, name='addPublication'),
+    url(r'^editPublication/$', views.editPublication, name='editPublication'),
+    url(r'^upload_file/$', views.upload_file, name='upload_file'),
+    url(r'^registration/$', views.registration, name='registration'),
 )
 
-urlpatterns += staticfiles_urlpatterns()
+

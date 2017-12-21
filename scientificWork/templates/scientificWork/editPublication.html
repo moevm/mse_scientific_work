@@ -1,0 +1,71 @@
+{% extends 'scientificWork/template_main.html' %}
+{% load staticfiles %}
+{% block title %}Редактирование публикации{% endblock %}
+{% block pagename %}Редактирование публикации{% endblock %}
+{% block content %}
+{% if st == 0 %}
+<form role="form" action="{% url 'editPublication' %}" >
+<div class="row">
+    <div class="col-md-3">
+        <label for="text">Название публикации</label>
+        <input type="text" name="bookName" class="form-control" placeholder="Название публикации" value="{{ pub.bookName }}" required>
+
+    <br/>
+        <label>Тип публикации</label>
+        <select id="disabledSelect" name="type" class="form-control">
+            <option {%   if pub.typePublication == 'guidelines' %} selected {% endif %} value="guidelines">Методическое указание</option>
+            <option {%   if pub.typePublication == 'book' %} selected {% endif %} value="book">Книга</option>
+            <option {%   if pub.typePublication == 'journal' %} selected {% endif %} value="journal">Статья в журнале</option>
+            <option {%   if pub.typePublication == 'compilation' %} selected {% endif %} value="compilation">Конспект лекции/сборник докладов</option>
+            <option {%   if pub.typePublication == 'collection' %} selected {% endif %} value="collection">Сборник трудов</option>
+        </select>
+    <br/>
+        <label>Дата издания</label>
+        <input type="text" name="date" class="form-control" value="{{ pubdate }}"  required>
+    <br/>
+        <label>Издательство</label>
+        <input type="text" name="publishingHouseName" class="form-control" value="{{ pub.publishingHouseName }}" required>
+    <br/>
+        <label>Место издания</label>
+        <input type="text" name="place" class="form-control" value="{{ pub.place }}" required>
+    <br/>
+        <label>Объём</label>
+        <div class="row">
+        <div class="col-md-8">
+        <input type="text" name="volume" class="form-control" value="{{ pub.volume }}" required>
+        </div>
+        <div class="col-md-4">
+        <input type="text" name="unitVolume" class="form-control" value="{{ pub.unitVolume }}" required>
+        </div></div>
+    <br/>
+        <label>Тираж</label>
+        <input type="text" name="edition" class="form-control" value="{{ pub.edition }}" required>
+    <br/>
+        <label>База цитирования</label>
+        <select id="disabledSelect" name="citingBase" class="form-control">
+            <option {%   if pub.citingBase == 'nil' %} selected {% endif %} value="nil">отсутствует</option>
+            <option {%   if pub.citingBase == 'wos' %} selected {% endif %} value="wos">Web of Science</option>
+            <option {%   if pub.citingBase == 'scp' %} selected {% endif %} value="scp">Scopus</option>
+        </select>
+    </div>
+
+</div>
+    <hr>
+    <div class="col-md-2">
+<button type="submit" name="id" value="{{ id }}" class="btn btn-success btn-md"  >Подтвердить</button>
+    </div>
+</form>
+    <div class="col-md-2">
+     <form role="form" action="{% url 'lk' %}" ><button type="submit" class="btn btn-danger btn-md"  >Отмена</button></form>
+    </div>
+{% endif %}
+{% if st == 1 %}
+    <h4>Публикация успешно отредактирована</h4>
+    <hr>
+    <div class="row">
+        <div class="col-md-3"><form role="form" action="{% url 'publications' %}" ><button type="submit" class="btn btn-default btn-md"  >В Публикации</button></form></div>
+        <div class="col-md-3"><form role="form" action="{% url 'lk' %}" ><button type="submit" class="btn btn-default btn-md"  >В личный кабинет</button></form></div>
+    </div>
+{% endif %}
+{% endblock %}
+

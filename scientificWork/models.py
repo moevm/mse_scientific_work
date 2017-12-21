@@ -55,7 +55,7 @@ class UserProfile(models.Model):
   position = models.CharField(max_length=40, null=True)
 
   # Срок окончания трудового договора
-  contract_date = models.DateField(null=True)  # Возможн поменяю
+  contract_date = models.DateField(null=True)  # Возможно поменяю
 
   # Ученая степень
   academic_degree = models.CharField(max_length=1, choices=ACADEMIC_DEGREE_CHOICES, null=True)
@@ -204,3 +204,10 @@ class Rand(models.Model):
     user = models.ForeignKey(UserProfile, default="")
     name = models.CharField("Название НИОКР", max_length="100")  # Название НИОКР
     cipher = models.CharField("Шифр", max_length="100")  #Шифр
+
+class MediaModel(models.Model):
+    owner = models.ForeignKey(Publication, default="")
+    media_file = models.FileField(upload_to='user_media')
+    def __str__(self):
+        return self.media_file.name
+
