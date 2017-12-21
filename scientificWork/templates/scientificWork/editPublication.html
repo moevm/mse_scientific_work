@@ -13,11 +13,11 @@
     <br/>
         <label>Тип публикации</label>
         <select id="disabledSelect" name="type" class="form-control">
-            <option {%   if pub.type == 'guidelines' %} selected {% endif %} value="guidelines">Методическое указание</option>
-            <option {%   if pub.type == 'book' %} selected {% endif %} value="book">Книга</option>
-            <option {%   if pub.type == 'journal' %} selected {% endif %} value="journal">Статья в журнале</option>
-            <option {%   if pub.type == 'compilation' %} selected {% endif %} value="compilation">Конспект лекции/сборник докладов</option>
-            <option {%   if pub.type == 'collection' %} selected {% endif %} value="collection">Сборник трудов</option>
+            <option {%   if pub.typePublication == 'guidelines' %} selected {% endif %} value="guidelines">Методическое указание</option>
+            <option {%   if pub.typePublication == 'book' %} selected {% endif %} value="book">Книга</option>
+            <option {%   if pub.typePublication == 'journal' %} selected {% endif %} value="journal">Статья в журнале</option>
+            <option {%   if pub.typePublication == 'compilation' %} selected {% endif %} value="compilation">Конспект лекции/сборник докладов</option>
+            <option {%   if pub.typePublication == 'collection' %} selected {% endif %} value="collection">Сборник трудов</option>
         </select>
     <br/>
         <label>Дата издания</label>
