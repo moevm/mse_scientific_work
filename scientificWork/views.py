@@ -260,8 +260,8 @@ def rads(request):
 def user_login(request):
     if request.method == 'POST':
 
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get('username').encode('utf8')
+        password = request.POST.get('password').encode('utf8')
 
         user = authenticate(username=username, password=password)
 
